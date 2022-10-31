@@ -6,11 +6,12 @@ namespace book.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions options)
-            :base(options)
+            : base(options)
         {
 
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
     }
 }
