@@ -1,6 +1,6 @@
 ﻿using book.Data.Models;
 using System.Threading;
-
+//this class works as a connection link between controller and API
 namespace book.Data.Services
 {
     public class BookService

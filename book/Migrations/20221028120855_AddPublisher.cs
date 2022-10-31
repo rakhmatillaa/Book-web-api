@@ -22,7 +22,7 @@ namespace book.Migrations
                 table: "Books",
                 type: "integer",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 1);
 
             migrationBuilder.CreateTable(
                 name: "Publisher",
