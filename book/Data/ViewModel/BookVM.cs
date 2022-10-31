@@ -9,5 +9,6 @@
         public DateTime DateRead { get; set; }
         public string Genre { get; set; }
         public string CoverUrl { get; set; }
+        public int PublisherId { get; set; }
     }
 }

@@ -21,7 +21,8 @@ namespace book.Data.Services
                 Rate= 1,
                 DateRead=book.DateRead,
                 Genre=book.Genre,
-                CoverUrl=book.CoverUrl
+                CoverUrl=book.CoverUrl,
+                PublisherId=book.PublisherId
             };
             _context.Books.Add(_book);
             _context.SaveChanges();

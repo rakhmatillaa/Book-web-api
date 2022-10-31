@@ -15,9 +15,7 @@ namespace book.Data.Services
         {
             var _publisher = new Publisher()
             {
-                Id = publisher.Id,
-                Name = publisher.Name,
-                Books = publisher.Books
+               Name = publisher.Name,
             };
 
             _context.Publishers.Add(_publisher);
