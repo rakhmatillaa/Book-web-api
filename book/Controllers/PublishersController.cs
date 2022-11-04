@@ -30,17 +30,17 @@ namespace book.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetPublisherById(int ID)
+        public IActionResult GetPublisherById(int id)
         {
-            var publisherById = _publisherService.GetPublisherById(ID);
+            var publisherById = _publisherService.GetPublisherById(id);
             return Ok(publisherById);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdatePublisherById(int id,[FromBody] PublisherVM publisher)
         {
-            var updatePublisher = _publisherService.UpdatePublisherById(id,publisher);
-            return Ok(updatePublisher);
+            _publisherService.UpdatePublisherById(id,publisher);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

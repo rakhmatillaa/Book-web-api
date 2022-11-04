@@ -34,18 +34,16 @@ namespace book.Data.Services
             return publisherById;
         }
 
-        public Publisher UpdatePublisherById(int publisherId, PublisherVM publisher)
+        public void UpdatePublisherById(int publisherId, PublisherVM publisher)
         {
             var _publisher = _context.Publishers.FirstOrDefault(n => n.Id == publisherId);
 
             if (_publisher != null)
             {
-                _publisher.Name = _publisher.Name;
+                _publisher.Name = publisher.Name;
 
                 _context.SaveChanges(); //saves this stuff in the database
             }
-
-            return _publisher;
         }
 
         public void DeleteById(int publisherId)
