@@ -12,6 +12,7 @@ o.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
 builder.Services.AddControllers();
 builder.Services.AddTransient<BookService>();
 builder.Services.AddTransient<PublisherService>();
+builder.Services.AddTransient<AuthorService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
