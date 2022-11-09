@@ -25,23 +25,15 @@ namespace book.Controllers
         public IActionResult GetAllAuthors()
         {
             var allAuthors=_authorService.GetAllAuthors();
-            Console.WriteLine(allAuthors.ToString());
-            return Ok();
+            return Ok(allAuthors);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetAuthorById(int id)
         {
             var author = _authorService.GetAuthorById(id);
-            return Ok();
+            return Ok(author);
         }
-
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateAuthorById(int id, [FromBody] AuthorVM author)
-        //{
-        //    var updateAuthor = _authorService.UpdateAuthorById(id, author);
-        //    return Ok(updateAuthor);
-        //}
 
         [HttpPut("{id}")]
         public IActionResult UpdateAuthorById(int id, [FromBody] AuthorVM author)

@@ -28,10 +28,14 @@ namespace book.Data.Services
             return authors;
         }
 
-        public Author GetAuthorById(int authorId)
+        public AuthorOutputVM GetAuthorById(int authorId)
         {
-            var authorById = _context.Authors.FirstOrDefault(o => o.Id == authorId);
-            return authorById;
+            var  _author= _context.Authors.FirstOrDefault(o => o.Id == authorId);
+            return new AuthorOutputVM
+            {
+                Id = _author.Id,
+                FullName = _author.FullName
+            };
         }
 
         public void UpdateAuthorById(int authorId,AuthorVM author)
