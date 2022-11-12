@@ -15,9 +15,9 @@ namespace book.Data.Models
         public DateTime DateAdded { get; set; }
 
         // Navigation property
+
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
-
-        public List<Author> Authors { get; set; }
+        public List<Book_Author> Book_Authors { get; set; }//many relationship
     }
 }

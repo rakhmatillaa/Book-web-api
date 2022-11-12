@@ -27,6 +27,17 @@ namespace book.Data.Services
             };
             _context.Books.Add(_book);
             _context.SaveChanges();
+
+            foreach(var id in book.AuthorsId)
+            {
+                var _bookAuthor = new Book_Author()
+                {
+                    BookId = _book.Id,
+                    AuthorId = id
+                };
+                _context.Book_Authors.Add(_bookAuthor);
+                _context.SaveChanges();
+            }
         }
 
         public List<Book> GetAllBooks() =>_context.Books.ToList();
@@ -43,12 +54,14 @@ namespace book.Data.Services
                 Genre = book.Genre,
                 CoverUrl = book.CoverUrl,
                 PublisherName=book.Publisher.Name,
-                //AuthorsNames=book.
+                AuthorsNames=book.Book_Authors.Select(n=>n.Author.FullName).ToList()
             }).FirstOrDefault();
 
             return _bookWithAuthor;
         }
+
         //many-to-many relationship on EntityFrameworkCore6
+
         public Book UpdateBookById(int bookId,BookVM.BookVM book)
         {
             var _book=_context.Books.FirstOrDefault(n => n.Id == bookId);

@@ -1,4 +1,6 @@
-﻿namespace book.Data.ViewModel
+﻿using book.Data.Models;
+
+namespace book.Data.ViewModel
 {
     public class BookWithAuthorVM
     {

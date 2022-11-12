@@ -1,4 +1,7 @@
-﻿namespace book.Data.BookVM
+﻿using book.Data.Models;
+using book.Data.ViewModel;
+
+namespace book.Data.BookVM
 {
     public class BookVM
     {
@@ -10,5 +13,8 @@
         public string Genre { get; set; }
         public string CoverUrl { get; set; }
         public int PublisherId { get; set; }
+
+        public List<int> AuthorsId { get; set; }
+
     }
 }
