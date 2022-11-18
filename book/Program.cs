@@ -1,27 +1,23 @@
 using book.Data;
-using book.Data.Services;
+using ServicesMethods;
 using Microsoft.EntityFrameworkCore;
+using book.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(o =>
 o.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
 
+
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddTransient<BookService>();
-builder.Services.AddTransient<PublisherService>();
-builder.Services.AddTransient<AuthorService>();
-
+builder.ConnectServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-// !!!!!app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
