@@ -14,11 +14,14 @@ builder.Services.AddTransient<BookService>();
 builder.Services.AddTransient<PublisherService>();
 builder.Services.AddTransient<AuthorService>();
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// !!!!!app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
