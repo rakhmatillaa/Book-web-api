@@ -8,17 +8,28 @@ namespace book.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
+        private readonly ILogger<AuthorsController> _logger;
         public AuthorService _authorService;
-        public AuthorsController(AuthorService authorService)
+        public AuthorsController(AuthorService authorService, ILogger<AuthorsController> logger)
         {
             _authorService = authorService;
+            _logger = logger;
         }
 
         [HttpPost]
         public IActionResult AddAuthor([FromBody] AuthorVM author)
         {
-            _authorService.AddAuthor(author);
-            return Ok();
+            try
+            {
+                _authorService.AddAuthor(author);
+                this._logger.LogInformation("Author has been created");
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                this._logger.LogError(ex.Message + " .This error happened");
+                return BadRequest();
+            }
         }
         
         [HttpGet("GetAuthorsWithBooks/{id}")]

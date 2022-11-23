@@ -9,17 +9,28 @@ namespace book.Controllers
     public class PublishersController : ControllerBase
     {
         public PublisherService _publisherService;
+        private readonly ILogger<PublishersController> _logger;
 
-        public PublishersController(PublisherService publisherService)
+        public PublishersController(PublisherService publisherService, ILogger<PublishersController> logger)
         {
             _publisherService = publisherService;
+            _logger = logger;
         }
 
         [HttpPost]
         public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
-            _publisherService.AddPublisher(publisher);
-            return Ok();
+            try
+            {
+                _publisherService.AddPublisher(publisher);
+                _logger.LogInformation("Publisher has been added successfully");
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message + " .This error happened");
+                return BadRequest();
+            }
         }
 
         [HttpGet]

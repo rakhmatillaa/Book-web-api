@@ -9,17 +9,30 @@ namespace book.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+
         public BookService _bookService;
-        public BooksController(BookService bookService)
+        private readonly ILogger<BooksController> logger;
+
+        public BooksController(BookService bookService, ILogger<BooksController> logger)
         {
             _bookService = bookService;
+            this.logger = logger;
         }
 
         [HttpPost]
         public IActionResult AddBook([FromBody] BookVM book)
         {
-            _bookService.AddBook(book);
-            return Ok();
+            try
+            {
+                _bookService.AddBook(book);
+                this.logger.LogInformation("Book has been created");
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                this.logger.LogError(ex.Message+" .This error happened");
+                return BadRequest();
+            }
         }
 
         [HttpGet]
