@@ -1,9 +1,8 @@
 ﻿using book.Data.Models;
-using book.Data.ViewModel;
 
-namespace book.Data.BookVM
+namespace book.Data.ViewModel
 {
-    public class BookVM
+    public class BookWithAuthorVM
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -12,9 +11,7 @@ namespace book.Data.BookVM
         public DateTime DateRead { get; set; }
         public string Genre { get; set; }
         public string CoverUrl { get; set; }
-        public int PublisherId { get; set; }
-
-        public List<int> AuthorsId { get; set; }
-
+        public string PublisherName { get; set; }
+        public List<string> AuthorsNames { get; set; }
     }
 }
