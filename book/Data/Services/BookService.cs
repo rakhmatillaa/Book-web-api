@@ -40,7 +40,25 @@ namespace book.Data.Services
             }
         }
 
-        public List<Book> GetAllBooks() =>_context.Books.ToList();
+        public List<Book> GetAllBooks() =>_context.Books.OrderBy(b=>b.Title).ToList();
+
+        public BookWithAuthorVM GetBookByStringWithAuthor(string title)
+        {
+            var _bookByString=_context.Books.Where(b=>b.Title == title).Select(book => new BookWithAuthorVM()
+            {
+                Title = book.Title,
+                Description = book.Description,
+                isRead = book.isRead,
+                Rate = 1,
+                DateRead = book.DateRead,
+                Genre = book.Genre,
+                CoverUrl = book.CoverUrl,
+                PublisherName = book.Publisher.Name,
+                AuthorsNames = book.Book_Authors.Select(n => n.Author.FullName).ToList()
+            }).FirstOrDefault();
+
+            return _bookByString;
+        }
 
         public BookWithAuthorVM GetBookById(int bookId)
         {

@@ -34,7 +34,7 @@ namespace book.Data.Services
 
         public List<Author> GetAllAuthors()
         {
-            var authors = _context.Authors.ToList();
+            var authors = _context.Authors.OrderBy(a=>a.FullName).ToList();
             return authors;
         }
 
