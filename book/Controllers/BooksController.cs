@@ -1,7 +1,9 @@
-﻿using book.Data.BookVM;
+﻿using book.Data;
 using book.Data.Services;
+using book.Data.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace book.Controllers
 {
@@ -9,25 +11,43 @@ namespace book.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+
+        private AppDbContext _context;
+
         public BookService _bookService;
-        public BooksController(BookService bookService)
+        private readonly ILogger<BooksController> logger;
+
+        public BooksController(BookService bookService, ILogger<BooksController> logger,AppDbContext context)
         {
             _bookService = bookService;
+            this.logger = logger;
+            _context= context;
         }
 
         [HttpPost]
         public IActionResult AddBook([FromBody] BookVM book)
         {
-            _bookService.AddBook(book);
-            return Ok();
+            try
+            {
+                _bookService.AddBook(book);
+                this.logger.LogInformation("Book has been created");
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                this.logger.LogError(ex.Message+" .This error happened");
+                return BadRequest();
+            }
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks()
+        public IActionResult GetAllBooks(string? sortBy,string? searchString)
         {
-            var allBooks=_bookService.GetAllBooks();
+            var allBooks=_bookService.GetAllBooks(sortBy,searchString);
             return Ok(allBooks);
         }
+
+
 
         [HttpGet("{id}")]
         public IActionResult GetBookById(int id)

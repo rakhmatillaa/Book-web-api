@@ -1,6 +1,9 @@
 ﻿using book.Data.Models;
+using book.Data.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
-
+//this class works as a connection link between controller and API
 namespace book.Data.Services
 {
     public class BookService
@@ -11,7 +14,7 @@ namespace book.Data.Services
             _context=context;
         }
 
-        public void AddBook(BookVM.BookVM book)
+        public void AddBook(BookVM book)
         {
             var _book = new Book()
             {
@@ -21,17 +24,70 @@ namespace book.Data.Services
                 Rate= 1,
                 DateRead=book.DateRead,
                 Genre=book.Genre,
-                CoverUrl=book.CoverUrl
+                CoverUrl=book.CoverUrl,
+                PublisherId=book.PublisherId
             };
             _context.Books.Add(_book);
             _context.SaveChanges();
+
+            foreach(var id in book.AuthorsId)
+            {
+                var _bookAuthor = new Book_Author()
+                {
+                    BookId = _book.Id,
+                    AuthorId = id
+                };
+                _context.Book_Authors.Add(_bookAuthor);
+                _context.SaveChanges();
+            }
         }
 
-        public List<Book> GetAllBooks() =>_context.Books.ToList();
+        public List<Book> GetAllBooks(string? sortBy, string? searchString)
+        {
+            var books=_context.Books.OrderBy(b => b.Title).ToList();
 
-        public Book GetBookById(int bookId) => _context.Books.FirstOrDefault(n => n.Id == bookId);
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                switch(sortBy)
+                {
+                    case "desc":
+                        books=books.OrderByDescending(b => b.Title).ToList(); 
+                        break;
+                    default:
+                        break;
 
-        public Book UpdateBookById(int bookId,BookVM.BookVM book)
+                }
+            }
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                books=books.Where(b=>b.Title.Contains(searchString)).ToList();
+            }
+
+            return books;
+        }
+
+        public BookWithAuthorVM GetBookById(int bookId)
+        {
+            var _bookWithAuthor = _context.Books.Where(n => n.Id == bookId).Select(book => new BookWithAuthorVM()
+            {
+                Title = book.Title,
+                Description = book.Description,
+                isRead = book.isRead,
+                Rate = 1,
+                DateRead = book.DateRead,
+                Genre = book.Genre,
+                CoverUrl = book.CoverUrl,
+                PublisherName=book.Publisher.Name,
+                AuthorsNames=book.Book_Authors.Select(n=>n.Author.FullName).ToList()
+            }).FirstOrDefault();
+
+            return _bookWithAuthor;
+        }
+
+        //many-to-many relationship on EntityFrameworkCore6
+
+        public Book UpdateBookById(int bookId,BookVM book)
         {
             var _book=_context.Books.FirstOrDefault(n => n.Id == bookId);
 
@@ -61,5 +117,7 @@ namespace book.Data.Services
                 _context.SaveChanges();
             }
         }
+
+        
     }
 }

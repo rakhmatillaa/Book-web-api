@@ -1,4 +1,7 @@
-﻿namespace book.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace book.Data.Models
 {
     public class Publisher
     {
@@ -7,6 +10,5 @@
         
         // Navigation property
         public List<Book> Books { get; set; }
-
     }
 }

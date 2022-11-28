@@ -1,6 +1,7 @@
 using book.Data;
-using book.Data.Services;
+using ServicesMethods;
 using Microsoft.EntityFrameworkCore;
+using book.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +10,12 @@ o.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddTransient<BookService>();
+builder.ConnectServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
