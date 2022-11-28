@@ -1,6 +1,5 @@
 ﻿using book.Data.Models;
 using book.Data.ViewModel;
-using System.Security.Cryptography.X509Certificates;
 
 namespace book.Data.Services
 {
@@ -16,8 +15,8 @@ namespace book.Data.Services
         {
             var author = _context.Authors.Where(n => n.Id == Id).Select(n => new AuthorWithBooksVM()
             {
-                FullName=n.FullName,
-                BookTitles=n.Book_Authors.Select(n=>n.Book.Title).ToList()
+                FullName = n.FullName,
+                BookTitles = n.Book_Authors.Select(n => n.Book.Title).ToList()
             }).FirstOrDefault();
             return author;
         }
@@ -32,16 +31,16 @@ namespace book.Data.Services
             _context.SaveChanges();
         }
 
-        public List<Author> GetAllAuthors(string? sortBy,string? searchString)
+        public List<Author> GetAllAuthors(string? sortBy, string? searchString)
         {
-            var authors = _context.Authors.OrderBy(a=>a.FullName).ToList();
+            var authors = _context.Authors.OrderBy(a => a.FullName).ToList();
 
             if (!String.IsNullOrEmpty(sortBy))
             {
-                switch(sortBy)
+                switch (sortBy)
                 {
                     case "desc":
-                        authors=authors.OrderByDescending(a=>a.FullName).ToList();
+                        authors = authors.OrderByDescending(a => a.FullName).ToList();
                         break;
                     default:
                         break;
@@ -50,7 +49,7 @@ namespace book.Data.Services
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                authors=authors.Where(a=>a.FullName.Contains(searchString)).ToList();
+                authors = authors.Where(a => a.FullName.Contains(searchString,StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return authors;
@@ -58,7 +57,7 @@ namespace book.Data.Services
 
         public AuthorOutputVM GetAuthorById(int authorId)
         {
-            var  _author= _context.Authors.FirstOrDefault(o => o.Id == authorId);
+            var _author = _context.Authors.FirstOrDefault(o => o.Id == authorId);
             return new AuthorOutputVM
             {
                 Id = _author.Id,
@@ -66,24 +65,24 @@ namespace book.Data.Services
             };
         }
 
-        public void UpdateAuthorById(int authorId,AuthorVM author)
+        public void UpdateAuthorById(int authorId, AuthorVM author)
         {
-            var newAuthorById=_context.Authors.FirstOrDefault(o => o.Id == authorId);
-        
-            if(newAuthorById != null)
+            var newAuthorById = _context.Authors.FirstOrDefault(o => o.Id == authorId);
+
+            if (newAuthorById != null)
             {
                 newAuthorById.FullName = author.FullName;
 
                 _context.SaveChanges();
             }
-            
+
         }
 
         public void DeleteById(int authorId)
         {
-            var _author=_context.Authors.FirstOrDefault(o => o.Id == authorId);
+            var _author = _context.Authors.FirstOrDefault(o => o.Id == authorId);
 
-            if(_author != null)
+            if (_author != null)
             {
                 _context.Authors.Remove(_author);
                 _context.SaveChanges();

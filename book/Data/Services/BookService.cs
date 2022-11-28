@@ -61,7 +61,7 @@ namespace book.Data.Services
 
             if(!String.IsNullOrEmpty(searchString))
             {
-                books=books.Where(b=>b.Title.Contains(searchString)).ToList();
+                books=books.Where(b=>b.Title.Contains(searchString,StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return books;

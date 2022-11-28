@@ -40,7 +40,7 @@ namespace book.Data.Services
             
             if(!String.IsNullOrEmpty(searchString))
             {
-                publishers=publishers.Where(n=>n.Name.Contains(searchString)).ToList();
+                publishers=publishers.Where(n=>n.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return publishers;
