@@ -1,5 +1,7 @@
 ﻿using book.Data.Models;
 using book.Data.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 //this class works as a connection link between controller and API
 namespace book.Data.Services
@@ -12,7 +14,7 @@ namespace book.Data.Services
             _context=context;
         }
 
-        public void AddBook(BookVM.BookVM book)
+        public void AddBook(BookVM book)
         {
             var _book = new Book()
             {
@@ -40,7 +42,30 @@ namespace book.Data.Services
             }
         }
 
-        public List<Book> GetAllBooks() =>_context.Books.ToList();
+        public List<Book> GetAllBooks(string? sortBy, string? searchString)
+        {
+            var books=_context.Books.OrderBy(b => b.Title).ToList();
+
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                switch(sortBy)
+                {
+                    case "desc":
+                        books=books.OrderByDescending(b => b.Title).ToList(); 
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                books=books.Where(b=>b.Title.Contains(searchString)).ToList();
+            }
+
+            return books;
+        }
 
         public BookWithAuthorVM GetBookById(int bookId)
         {
@@ -62,7 +87,7 @@ namespace book.Data.Services
 
         //many-to-many relationship on EntityFrameworkCore6
 
-        public Book UpdateBookById(int bookId,BookVM.BookVM book)
+        public Book UpdateBookById(int bookId,BookVM book)
         {
             var _book=_context.Books.FirstOrDefault(n => n.Id == bookId);
 

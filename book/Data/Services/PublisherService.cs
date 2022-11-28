@@ -22,9 +22,27 @@ namespace book.Data.Services
             _context.SaveChanges();
         }
 
-        public List<Publisher> GetAllPublishers()
+        public List<Publisher> GetAllPublishers(string? sortBy,string? searchString)
         {
-            var publishers = _context.Publishers.ToList();
+            var publishers = _context.Publishers.OrderBy(n=>n.Name).ToList();
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    case "desc":
+                        publishers=publishers.OrderByDescending(n=>n.Name).ToList(); 
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                publishers=publishers.Where(n=>n.Name.Contains(searchString)).ToList();
+            }
+
             return publishers;
         }
 
