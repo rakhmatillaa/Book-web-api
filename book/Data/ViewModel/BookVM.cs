@@ -1,7 +1,7 @@
 ﻿using book.Data.Models;
 using book.Data.ViewModel;
 
-namespace book.Data.BookVM
+namespace book.Data.ViewModel
 {
     public class BookVM
     {

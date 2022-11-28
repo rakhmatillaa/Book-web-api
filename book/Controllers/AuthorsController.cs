@@ -42,9 +42,9 @@ namespace book.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllAuthors()
+        public IActionResult GetAllAuthors(string? sortBy,string? searchString)
         {
-            var allAuthors=_authorService.GetAllAuthors();
+            var allAuthors=_authorService.GetAllAuthors(sortBy,searchString);
             return Ok(allAuthors);
         }
 

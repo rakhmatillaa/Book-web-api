@@ -34,9 +34,9 @@ namespace book.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllPublishers()
+        public IActionResult GetAllPublishers(string? orderBy,string? searchString)
         {
-            var allPublishers = _publisherService.GetAllPublishers();
+            var allPublishers = _publisherService.GetAllPublishers(orderBy,searchString);
             return Ok(allPublishers);
         }
 

@@ -1,7 +1,9 @@
-﻿using book.Data.BookVM;
+﻿using book.Data;
 using book.Data.Services;
+using book.Data.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace book.Controllers
 {
@@ -10,13 +12,16 @@ namespace book.Controllers
     public class BooksController : ControllerBase
     {
 
+        private AppDbContext _context;
+
         public BookService _bookService;
         private readonly ILogger<BooksController> logger;
 
-        public BooksController(BookService bookService, ILogger<BooksController> logger)
+        public BooksController(BookService bookService, ILogger<BooksController> logger,AppDbContext context)
         {
             _bookService = bookService;
             this.logger = logger;
+            _context= context;
         }
 
         [HttpPost]
@@ -36,18 +41,13 @@ namespace book.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks()
+        public IActionResult GetAllBooks(string? sortBy,string? searchString)
         {
-            var allBooks=_bookService.GetAllBooks();
+            var allBooks=_bookService.GetAllBooks(sortBy,searchString);
             return Ok(allBooks);
         }
 
-        [HttpGet("{title}")]
-        public IActionResult GetBookByStringWithAuthor(string title)
-        {
-            var book=_bookService.GetBookByStringWithAuthor(title);
-            return Ok(book);
-        }
+
 
         [HttpGet("{id}")]
         public IActionResult GetBookById(int id)

@@ -32,9 +32,27 @@ namespace book.Data.Services
             _context.SaveChanges();
         }
 
-        public List<Author> GetAllAuthors()
+        public List<Author> GetAllAuthors(string? sortBy,string? searchString)
         {
             var authors = _context.Authors.OrderBy(a=>a.FullName).ToList();
+
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                switch(sortBy)
+                {
+                    case "desc":
+                        authors=authors.OrderByDescending(a=>a.FullName).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                authors=authors.Where(a=>a.FullName.Contains(searchString)).ToList();
+            }
+
             return authors;
         }
 
