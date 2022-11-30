@@ -11,7 +11,7 @@ namespace book.Data.Services
             _context = context;
         }
 
-        public AuthorWithBooksVM GetAuthorWithBooks(int Id)
+        public async Task<AuthorWithBooksVM> GetAuthorWithBooksAsync(int Id)
         {
             var author = _context.Authors.Where(n => n.Id == Id).Select(n => new AuthorWithBooksVM()
             {
@@ -21,7 +21,7 @@ namespace book.Data.Services
             return author;
         }
 
-        public void AddAuthor(AuthorVM author)
+        public async Task AddAuthorAsync(AuthorVM author)
         {
             var _author = new Author()
             {
@@ -31,7 +31,7 @@ namespace book.Data.Services
             _context.SaveChanges();
         }
 
-        public List<Author> GetAllAuthors(string? sortBy, string? searchString)
+        public async Task<List<Author>> GetAllAuthorsAsync(string? sortBy, string? searchString)
         {
             var authors = _context.Authors.OrderBy(a => a.FullName).ToList();
 
@@ -55,17 +55,19 @@ namespace book.Data.Services
             return authors;
         }
 
-        public AuthorOutputVM GetAuthorById(int authorId)
+        public async Task<AuthorOutputVM> GetAuthorByIdAsync(int authorId)
         {
             var _author = _context.Authors.FirstOrDefault(o => o.Id == authorId);
+            
             return new AuthorOutputVM
             {
                 Id = _author.Id,
                 FullName = _author.FullName
             };
+
         }
 
-        public void UpdateAuthorById(int authorId, AuthorVM author)
+        public async Task UpdateAuthorByIdAsync(int authorId, AuthorVM author)
         {
             var newAuthorById = _context.Authors.FirstOrDefault(o => o.Id == authorId);
 
@@ -78,7 +80,7 @@ namespace book.Data.Services
 
         }
 
-        public void DeleteById(int authorId)
+        public async Task DeleteByIdAsync(int authorId)
         {
             var _author = _context.Authors.FirstOrDefault(o => o.Id == authorId);
 

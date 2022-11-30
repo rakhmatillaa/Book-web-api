@@ -17,11 +17,11 @@ namespace book.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAuthor([FromBody] AuthorVM author)
+        public async Task<IActionResult> AddAuthor([FromBody] AuthorVM author)
         {
             try
             {
-                _authorService.AddAuthor(author);
+                await _authorService.AddAuthorAsync(author);
                 this._logger.LogInformation("Author has been created");
                 return Ok();
             }
@@ -35,37 +35,37 @@ namespace book.Controllers
 
 
         [HttpGet("GetAuthorsWithBooks/{id}")]
-        public IActionResult GetAuthorWithBooks(int id)
+        public async Task<IActionResult> GetAuthorWithBooks(int id)
         {
-            var auhtorsWithBooks= _authorService.GetAuthorWithBooks(id);
+            var auhtorsWithBooks= await _authorService.GetAuthorWithBooksAsync(id);
             return Ok(auhtorsWithBooks);
         }
 
         [HttpGet]
-        public IActionResult GetAllAuthors(string? sortBy,string? searchString)
+        public async Task<IActionResult> GetAllAuthors(string? sortBy,string? searchString)
         {
-            var allAuthors=_authorService.GetAllAuthors(sortBy,searchString);
+            var allAuthors=await _authorService.GetAllAuthorsAsync(sortBy,searchString);
             return Ok(allAuthors);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetAuthorById(int id)
+        public async Task<IActionResult> GetAuthorById(int id)
         {
-            var author = _authorService.GetAuthorById(id);
+            var author = await _authorService.GetAuthorByIdAsync(id);
             return Ok(author);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateAuthorById(int id, [FromBody] AuthorVM author)
+        public async Task<IActionResult> UpdateAuthorById(int id, [FromBody] AuthorVM author)
         {
-            _authorService.UpdateAuthorById(id, author);
+            await _authorService.UpdateAuthorByIdAsync(id, author);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteById(int id)
+        public async Task<IActionResult> DeleteById(int id)
         {
-            _authorService.DeleteById(id);
+            await _authorService.DeleteByIdAsync(id);
             return NoContent();
         }
     }

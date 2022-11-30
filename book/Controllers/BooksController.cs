@@ -25,11 +25,11 @@ namespace book.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddBook([FromBody] BookVM book)
+        public async Task<IActionResult> AddBook([FromBody] BookVM book)
         {
             try
             {
-                _bookService.AddBook(book);
+                await _bookService.AddBookAsync(book);
                 this.logger.LogInformation("Book has been created");
                 return Ok();
             }
@@ -41,32 +41,32 @@ namespace book.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks(string? sortBy,string? searchString)
+        public async Task<IActionResult> GetAllBooks(string? sortBy,string? searchString)
         {
-            var allBooks=_bookService.GetAllBooks(sortBy,searchString);
+            var allBooks=await _bookService.GetAllBooksAsync(sortBy,searchString);
             return Ok(allBooks);
         }
 
 
 
         [HttpGet("{id}")]
-        public IActionResult GetBookById(int id)
+        public async Task<IActionResult> GetBookById(int id)
         {
-            var book = _bookService.GetBookById(id);
+            var book =await _bookService.GetBookByIdAsync(id);
             return Ok(book);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id, [FromBody] BookVM book)
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] BookVM book)
         {
-            var updateBook=_bookService.UpdateBookById(id, book);
+            var updateBook=await _bookService.UpdateBookByIdAsync(id, book);
             return Ok(updateBook);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteBookById(int id)
+        public async Task<IActionResult> DeleteBookById(int id)
         {
-            _bookService.DeleteById(id);
+            await _bookService.DeleteByIdAsync(id);
             return NoContent();
         }
     }

@@ -18,11 +18,11 @@ namespace book.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPublisher([FromBody] PublisherVM publisher)
+        public async Task<IActionResult> AddPublisher([FromBody] PublisherVM publisher)
         {
             try
             {
-                _publisherService.AddPublisher(publisher);
+                await _publisherService.AddPublisherAsync(publisher);
                 _logger.LogInformation("Publisher has been added successfully");
                 return Ok();
             }
@@ -34,30 +34,30 @@ namespace book.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllPublishers(string? orderBy,string? searchString)
+        public async Task<IActionResult> GetAllPublishers(string? orderBy,string? searchString)
         {
-            var allPublishers = _publisherService.GetAllPublishers(orderBy,searchString);
+            var allPublishers =await _publisherService.GetAllPublishersAsync(orderBy,searchString);
             return Ok(allPublishers);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetPublisherById(int id)
+        public async Task<IActionResult> GetPublisherById(int id)
         {
-            var publisherById = _publisherService.GetPublisherById(id);
+            var publisherById =await _publisherService.GetPublisherByIdAsync(id);
             return Ok(publisherById);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePublisherById(int id,[FromBody] PublisherVM publisher)
+        public async Task<IActionResult> UpdatePublisherById(int id,[FromBody] PublisherVM publisher)
         {
-            _publisherService.UpdatePublisherById(id,publisher);
+            await _publisherService.UpdatePublisherByIdAsync(id,publisher);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePublisherById(int id)
+        public async Task<IActionResult> DeletePublisherById(int id)
         {
-            _publisherService.DeleteById(id);
+            await _publisherService.DeleteByIdAsync(id);
             return NoContent();
         }
     }

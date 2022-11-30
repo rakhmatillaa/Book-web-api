@@ -11,7 +11,7 @@ namespace book.Data.Services
             _context = context;
         }
 
-        public void AddPublisher(PublisherVM publisher)
+        public async Task AddPublisherAsync(PublisherVM publisher)
         {
             var _publisher = new Publisher()
             {
@@ -22,7 +22,7 @@ namespace book.Data.Services
             _context.SaveChanges();
         }
 
-        public List<Publisher> GetAllPublishers(string? sortBy,string? searchString)
+        public async Task<List<Publisher>> GetAllPublishersAsync(string? sortBy,string? searchString)
         {
             var publishers = _context.Publishers.OrderBy(n=>n.Name).ToList();
 
@@ -46,13 +46,13 @@ namespace book.Data.Services
             return publishers;
         }
 
-        public Publisher GetPublisherById(int publisherId)
+        public async Task<Publisher> GetPublisherByIdAsync(int publisherId)
         {
             var publisherById = _context.Publishers.FirstOrDefault(n=>n.Id==publisherId);
             return publisherById;
         }
 
-        public void UpdatePublisherById(int publisherId, PublisherVM publisher)
+        public async Task UpdatePublisherByIdAsync(int publisherId, PublisherVM publisher)
         {
             var _publisher = _context.Publishers.FirstOrDefault(n => n.Id == publisherId);
 
@@ -64,7 +64,7 @@ namespace book.Data.Services
             }
         }
 
-        public void DeleteById(int publisherId)
+        public async Task DeleteByIdAsync(int publisherId)
         {
             var _publisher = _context.Publishers.FirstOrDefault(n => n.Id == publisherId);
 
